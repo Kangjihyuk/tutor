@@ -1,15 +1,15 @@
-import React, { forwardRef } from "react";
-import Label from "./Label";
-import Input from "./Input";
+import React from "react";
+import { Input } from "./Input";
+import { Label } from "./Label";
 
-const Index = forwardRef((props, ref) => {
+const Index = (props) => {
   const { label, name, placeholder, type } = props;
   return (
     <div className="mb-6">
-      <Label name={name}/>
-      <Input name={name} type={type} placeholder={placeholder} ref={ref} />
+      <Label name={name} label={label} />
+      <Input name={name} type={type} placeholder={placeholder} />
     </div>
   );
-});
+};
 
 export default Index;

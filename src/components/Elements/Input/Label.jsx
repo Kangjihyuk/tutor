@@ -1,7 +1,7 @@
-import React  from 'react'
+import React from "react";
 
 export const Label = (props) => {
-    const {name,children}  = props
+  const { name, children } = props;
   return (
     <label
       name={name}
@@ -9,5 +9,5 @@ export const Label = (props) => {
     >
       {children}
     </label>
-  )
-}
+  );
+};

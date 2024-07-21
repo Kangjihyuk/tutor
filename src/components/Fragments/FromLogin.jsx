@@ -1,39 +1,53 @@
-import { useEffect, useRef } from 'react';
-import Index from '../Elements/Input/Index';
-import Button from '../Elements/Button/Button';
-
-const FromLogin = () => {
+import Index from "../Elements/Input/Index"; // Pastikan path import-nya sesuai
+import Button from "../Elements/Button/Button"; // Pastikan path import-nya sesuai
+import { login } from "../../services/auth.services";
+import { useState } from "react";
+export const FromLogin = () => {
+  const [loginFailed, setLoginFailed] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
-    localStorage.setItem("email", e.target.email.value);
-    localStorage.setItem("password", e.target.password.value);
-    window.location.href = '/products';
-  }
-
-  const emailRef = useRef(null);
-
-  useEffect(() => {
-    emailRef.current.focus();
-  }, []);
+    // localStorage.setItem("email", e.target.email.value);
+    // localStorage.setItem("password", e.target.password.value);
+    // window.location.href = "/products";
+    const data = {
+      username: e.target.username.value,
+      password: e.target.password.value,
+    };
+    login(data, (status, res) => {
+      if (status) {
+        localStorage.setItem("token", res);
+        window.location.href = "/products";
+      } else {
+        setLoginFailed(res.response.data);
+      }
+    });
+  };
 
   return (
     <form onSubmit={handleSubmit}>
       <Index
-        type="email"
+        type="text"
         placeholder="Example@gmail.com"
-        name="email"
-        label="Email"
-        ref={emailRef}
+        name="username"
+        label="Username"
       />
       <Index
-        type="password" // "Password" diubah menjadi "password"
+        type="password"
         placeholder="******"
         name="password"
         label="Password"
       />
-      <Button className="bg-blue-600" onClick={handleSubmit}>Login</Button>
+      <Button
+        type="submit"
+        classname="bg-blue-600"
+        onclick={() => handleSubmit()}
+      >
+        {" "}
+        Login
+      </Button>
+      {loginFailed && (
+        <p className="text-red-500 mt-4 text-center">{loginFailed}</p>
+      )}
     </form>
   );
 };
-
-export default FromLogin;
